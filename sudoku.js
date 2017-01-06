@@ -71,6 +71,13 @@ class Sudoku {
     return true
   }
 
+  combineCek(col, row, target){
+    if (this.horizontal(col, target) && this.vertical(row, target) && this.blokal(col, row, target)){
+      return true
+    } else {
+      return false
+    }
+  }
   solve() {}
 
   // Returns a string representing the current state of the board
@@ -85,18 +92,15 @@ var game = new Sudoku(board_string)
 // console.log(game.board())
 console.log(game.horizontalBoard());
 game.turnBlock();
-// console.log(game.verticalBoard());
-console.log(game.blokal(3, 2, 5));
+console.log(game.combineCek(0, 0, 6));
+// console.log(game.blokal(3, 2, 5));
 // console.log(game.horizontal(7, 5));
 // console.log(game.vertical(0,3));
-// console.log(blokIndexer(3,2));
 // console.log(blokIndexer(5,2));
 
 function blokIndexer(col, row){
   var plus = col + row
   var minus = col - row
-  // console.log(plus);
-  // console.log(minus);
   if (plus >= 0 && plus <= 8 && minus >= -8 && minus <= 0){
     return 0
   }
@@ -129,14 +133,3 @@ function blokIndexer(col, row){
 function converter(input, lower, upper){
   return number > lower && number < upper
 }
-// function test(){
-//   for (let i = 0; i < 9; i++){
-//     console.log(i);
-//     for(let j = 0; j < 9; j++){
-//       console.log(game.blokal(i, j, 0))
-//     }
-//     console.log("---------------------");
-//   }
-// }
-// console.log(blokIndexer(8, 8));
-// test()
