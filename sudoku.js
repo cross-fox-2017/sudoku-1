@@ -30,15 +30,31 @@ class Sudoku {
   }
 
   turnBlock(){
-    
+    for (let i = 0; i < 9; i++){
+      for(let j = 0; j < 3; j++){
+        for (let k = 0; k < 3; k++){
+
+        }
+      }
+    }
   }
 
-  horizontal(row, col, target){
-    return this.startBoard[row][col] != target;
+  horizontal(col, target){
+    for (let i = 0; i < this.startBoard.length; i++){
+      if (this.startBoard[i][col] == target){
+        return false
+      }
+    }
+    return true
   }
 
-  vertical(row, col, target){
-    return this.nintydegree[row][col] != target;
+  vertical(row, target){
+    for (let i = 0; i < this.nintydegree.length; i++){
+      if (this.nintydegree[i][row] == target){
+        return false
+      }
+    }
+    return true
   }
   block(){
 
@@ -55,6 +71,6 @@ var game = new Sudoku(board_string)
 // game.solve()
 
 // console.log(game.board())
-console.log(game.horizontalBoard());
+game.horizontalBoard();
 console.log(game.verticalBoard());
-// console.log(game.vertical(1,1,9));
+console.log(game.vertical(0, 9));
