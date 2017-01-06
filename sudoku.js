@@ -1,6 +1,6 @@
 "use strict"
 var fs = require('fs')
-var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
+var board_string = fs.readFileSync('set-02_project-euler_50-easy-puzzles.txt')
   .toString()
   .split("\n")[0]
 
@@ -8,8 +8,8 @@ class Sudoku {
   constructor(starting) {
     this.starting = starting;
     this.startBoard = [];
-    this.nintydegree = [];
     this.block = [];
+    this.empty = []
   }
 
   horizontalBoard() {
@@ -20,20 +20,21 @@ class Sudoku {
     return this.startBoard;
   }
 
-  // verticalBoard() {
-  //   for (let i = 0; i < 9; i++){
-  //     this.nintydegree[i] = []
-  //     for (let j = 0; j < 9; j++){
-  //       this.nintydegree[i][j] = this.startBoard[j][i];
-  //     }
-  //   }
-  //   return this.nintydegree;
-  // }
+  zempty(){
+    for (let i = 0; i < 9; i++){
+      for (let j =0; j < 9; j++){
+        if (this.startBoard[i][j] == 0){
+          this.empty.push([i,j])
+        }
+      }
+    }
+    return this.empty
+  }
 
   turnBlock(){
     for (let i = 0; i < 9; i++){
-      var kiri = [0, 0, 0, 3, 3, 3, 6, 6, 6];
-      var kanan = [0, 3, 6, 0, 3, 6, 0, 3, 6];
+      let kiri = [0, 0, 0, 3, 3, 3, 6, 6, 6];
+      let kanan = [0, 3, 6, 0, 3, 6, 0, 3, 6];
       this.block[i] = []
       for(let j = kiri[i]; j < kiri[i] + 3; j++){
         for (let k = kanan[i]; k < kanan[i] + 3; k++){
@@ -61,6 +62,7 @@ class Sudoku {
     }
     return true
   }
+
   blokal(col, row, target){
     var area = blokIndexer(col, row);
     for (let i = 0; i < 9; i++){
@@ -78,21 +80,35 @@ class Sudoku {
       return false
     }
   }
-  solve() {}
+
+  solve(){
+    for (let i = 0; i < this.empty.length; i++){
+      let kiri = this.empty[i][0];
+      let kanan = this.empty[i][1];
+      for (let j = 0; j < 9; j++){
+        if (this.combineCek(kiri, kanan, j)){
+          this.startBoard[kiri][kanan] = j;
+        }
+      }
+    }
+    return this.startBoard
+  }
 
   // Returns a string representing the current state of the board
   board() {}
 }
 
-var game = new Sudoku(board_string)
+var game = new Sudoku('619030040270061008000047621486302079000014580031009060005720806320106057160400030')
 
 // Remember: this will just fill out what it can and not "guess"
 // game.solve()
 
-// console.log(game.board())
 console.log(game.horizontalBoard());
+game.zempty();
 game.turnBlock();
-console.log(game.combineCek(0, 0, 6));
+// console.log(game.combineCek(0, 1, 8));
+console.log(game.solve());
+// console.log(game.combineCek(0, 0, 6));
 // console.log(game.blokal(3, 2, 5));
 // console.log(game.horizontal(7, 5));
 // console.log(game.vertical(0,3));
