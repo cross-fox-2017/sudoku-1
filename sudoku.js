@@ -21,6 +21,7 @@ class Sudoku {
   }
 
   zempty(){
+    this.empty = []
     for (let i = 0; i < 9; i++){
       for (let j =0; j < 9; j++){
         if (this.startBoard[i][j] == 0){
@@ -90,6 +91,14 @@ class Sudoku {
           this.startBoard[kiri][kanan] = j;
         }
       }
+      // if (this.startBoard[kiri][kanan] == 0){
+      //   let randomer = Math.floor(Math.random()*(9-1)+1)
+      //   this.startBoard[kiri][kanan] = randomer
+      // }
+      if (this.zempty().length != 0){
+        this.turnBlock()
+        this.solve()
+      };
     }
     return this.startBoard
   }
