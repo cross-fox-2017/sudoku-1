@@ -54,7 +54,7 @@ class Sudoku {
 ///////////////////////////////////////////////////////////////////////////////
         if (this.box[i][j] == '0') {
           if (i < 3 && j < 3) {
-
+            // untuk mencari box pertama dari kiri
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
 
@@ -67,6 +67,8 @@ class Sudoku {
           }
 ///////////////////////////////////////////////////////////////////////////////
           if (i < 3 && j < 3) {
+            // untuk mencari box
+             dari kiri
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
 
@@ -78,16 +80,29 @@ class Sudoku {
           }
 ///////////////////////////////////////////////////////////////////////////////
           if (i < 3 && j < 3) {
+            // untuk mencari box ketiga
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
 
-                tempBox.push(this.box[k][l+6])
+                // tempBox.push(this.box[k][l+6])
 
               }
             }
-            console.log('box 3');
-            return tempBox
+            // console.log('box 3');
+            // return tempBox
           }
+///////////////////////////////////////////////////////////////////////////////
+          if (i < 3 && j < 3) {
+            // untuk mencari box keempat
+            for (var k = 0; k < 3; k++) {
+              for (var l = 0; l < 3; l++) {
+                // tempBox.push(this.box[k+3][l])
+              }
+            }
+            // console.log('box 4');
+            // return tempBox
+          }
+///////////////////////////////////////////////////////////////////////////////
         }
       }
     }
