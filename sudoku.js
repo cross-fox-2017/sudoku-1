@@ -14,7 +14,7 @@ class Sudoku {
   }
 
   printBoard(){
-    console.log(`Before :\n`);
+    // console.log(`Before :\n`);
     // console.log(temp);
     for(var i = 0 ; i < 9 ; i++){
       let kolom1 = String(this.box[i]).replace(/,/g, ' ').slice(0, 5)
@@ -155,13 +155,23 @@ class Sudoku {
           //untuk mencari box ke delapan
           for (var k = 0; k < 3; k++) {
             for (var l = 0; l < 3; l++) {
-              tempBox.push(this.box[k+6][l+3])
+              // tempBox.push(this.box[k+6][l+3])
             }
           }
-          console.log('box 8');
-          return tempBox
+          // console.log('box 8');
+          // return tempBox
         }
 ///////////////////////////////////////////////////////////////////////////////
+        if (i < 6 && j < 6) {
+          //untuk mencari box ke sembilan
+          for (var k = 0; k < 3; k++) {
+            for (var l = 0; l < 3; l++) {
+              tempBox.push(this.box[k+6][l+6])
+            }
+          }
+          console.log('box 9');
+          return tempBox
+        }
       }
     }
   }
