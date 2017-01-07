@@ -13,6 +13,21 @@ class Sudoku {
 
   }
 
+  printBoard(){
+    console.log(`Before :\n`);
+    // console.log(temp);
+    for(var i = 0 ; i < 9 ; i++){
+      let kolom1 = String(this.box[i]).replace(/,/g, ' ').slice(0, 5)
+      let kolom2 = String(this.box[i]).replace(/,/g, ' ').slice(6, 11)
+      let kolom3 = String(this.box[i]).replace(/,/g, ' ').slice(12, 17)
+
+    console.log(` ${kolom1} | ${kolom2} | ${kolom3}`);
+    if(i === 2 || i === 5){
+    console.log(`----------------------`);
+      }
+    }
+  }
+
   // Returns a string representing the current state of the board
   board() {
     for (var i = 0; i < 9; i++) { //// print board
@@ -67,8 +82,7 @@ class Sudoku {
           }
 ///////////////////////////////////////////////////////////////////////////////
           if (i < 3 && j < 3) {
-            // untuk mencari box
-             dari kiri
+            // untuk mencari box dari kiri
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
 
@@ -103,6 +117,16 @@ class Sudoku {
             // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
+          if (i < 3 && j < 3) {
+            //untuk mencari box ke lima
+            for (var k = 0; k < 3; k++) {
+              for (var l = 0; l < 3; l++) {
+                tempBox.push(this.box[k+6][l])
+              }
+            }
+            console.log('box 5');
+            return tempBox
+          }
         }
       }
     }
@@ -133,8 +157,10 @@ var game = new Sudoku('105802000090076405200400819019007306762083090000061050007
 // var game = new Sudoku(board_string)
 // Remember: this will just fill out what it can and not "guess"
 // game.solve()
-console.log(game.board())
+game.board()
+game.printBoard()
 console.log(game.checkBox());
+// console.log(game.checkBox());
 // console.log(game.checkRow(1)
 // console.log(game.checkRow(1);
 // console.log(game.checkRow(0,1,4));
