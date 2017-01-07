@@ -81,7 +81,7 @@ class Sudoku {
             // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
-          if (i < 3 && j < 3) {
+          if (i < 6 && j < 6) {
             // untuk mencari box dari kiri
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
@@ -93,7 +93,7 @@ class Sudoku {
             // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
-          if (i < 3 && j < 3) {
+          if (i < 6 && j < 6) {
             // untuk mencari box ketiga
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
@@ -106,7 +106,7 @@ class Sudoku {
             // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
-          if (i < 3 && j < 3) {
+          if (i < 6 && j < 6) {
             // untuk mencari box keempat
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
@@ -128,7 +128,7 @@ class Sudoku {
             // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
-          if (i < 9 && j < 9) {
+          if (i < 6 && j < 6) {
             //untuk mencari box ke enam
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
@@ -139,7 +139,7 @@ class Sudoku {
             // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
-          if (i < 9 && j < 9) {
+          if (i < 6 && j < 6) {
             //untuk mencari box ke tujuh
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
@@ -149,7 +149,19 @@ class Sudoku {
             console.log('box 7');
             return tempBox
           }
+///////////////////////////////////////////////////////////////////////////////
         }
+        if (i < 6 && j < 6) {
+          //untuk mencari box ke delapan
+          for (var k = 0; k < 3; k++) {
+            for (var l = 0; l < 3; l++) {
+              tempBox.push(this.box[k+6][l+3])
+            }
+          }
+          console.log('box 8');
+          return tempBox
+        }
+///////////////////////////////////////////////////////////////////////////////
       }
     }
   }
