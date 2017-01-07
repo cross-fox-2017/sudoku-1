@@ -59,35 +59,35 @@ class Sudoku {
               for (var l = 0; l < 3; l++) {
 
                 // tempBox.push(this.box[k][l])
+                // console.log(this.box[k][l]);
               }
             }
             // console.log('box 1');
             // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
-          if (i < 6 && j < 6) {
+          if (i < 3 && j < 3) {
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
 
-                tempBox.push(this.box[k][l+3])
-
+                // tempBox.push(this.box[k][l+3])
               }
             }
             // console.log('box 2');
-            return tempBox
+            // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
-          // if (i < 3 && j < 6) {
-          //   for (var k = 0; k < 3; k++) {
-          //     for (var l = 0; l < 3; l++) {
-          //
-          //       tempBox.push(this.box[k][l+3])
-          //
-          //     }
-          //   }
-          //   console.log('box 3');
-          //   return tempBox
-          // }
+          if (i < 3 && j < 3) {
+            for (var k = 0; k < 3; k++) {
+              for (var l = 0; l < 3; l++) {
+
+                tempBox.push(this.box[k][l+6])
+
+              }
+            }
+            console.log('box 3');
+            return tempBox
+          }
         }
       }
     }
