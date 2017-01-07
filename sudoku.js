@@ -9,7 +9,8 @@ class Sudoku {
     this.starting = starting;
     this.startBoard = [];
     this.block = [];
-    this.empty = []
+    this.empty = [];
+    this.kunci = [1,2,3,4,5,6,7,8,9]
   }
 
   horizontalBoard() {
@@ -44,6 +45,17 @@ class Sudoku {
       }
     }
     return this.block
+  }
+
+  randomNine (){
+    var count = this.kunci.length
+    while(count){
+      let randomer = Math.floor(Math.random()*count--) | 0;
+      let temp = this.kunci[count]; //tukar2tempat
+      this.kunci[count] = this.kunci[randomer];
+      this.kunci[randomer] = temp;
+    }
+    return this.kunci
   }
 
   horizontal(col, target){
@@ -86,19 +98,22 @@ class Sudoku {
     for (let i = 0; i < this.empty.length; i++){
       let kiri = this.empty[i][0];
       let kanan = this.empty[i][1];
-      for (let j = 0; j < 9; j++){
-        if (this.combineCek(kiri, kanan, j)){
-          this.startBoard[kiri][kanan] = j;
+      let got = false;
+      for (let j = 1; j < 10; j++){
+        if (this.combineCek(kiri, kanan, this.kunci[j])){
+          this.startBoard[kiri][kanan] = this.kunci[j];
+          this.turnBlock();
+          got = true;
         }
       }
       // if (this.startBoard[kiri][kanan] == 0){
       //   let randomer = Math.floor(Math.random()*(9-1)+1)
       //   this.startBoard[kiri][kanan] = randomer
       // }
-      if (this.zempty().length != 0){
-        this.turnBlock()
-        this.solve()
-      };
+      if (got == false){ //mencegah stuck loop
+        this.randomNine() // butuh dirandom ulang
+        i--;
+      }
     }
     return this.startBoard
   }
@@ -113,10 +128,11 @@ var game = new Sudoku('619030040270061008000047621486302079000014580031009060005
 // game.solve()
 
 console.log(game.horizontalBoard());
-game.zempty();
-game.turnBlock();
+// game.zempty();
+// game.turnBlock();
+// console.log(game.solve());
+console.log(game.randomNine());
 // console.log(game.combineCek(0, 1, 8));
-console.log(game.solve());
 // console.log(game.combineCek(0, 0, 6));
 // console.log(game.blokal(3, 2, 5));
 // console.log(game.horizontal(7, 5));
