@@ -13,14 +13,18 @@ class Sudoku {
     this.kunci = [1,2,3,4,5,6,7,8,9];
     this.count = 0;
     this.backer = 1 //backtracker
+    this.counter = 0
+    this.bank = []
   }
 
   horizontalBoard() {
     let into_nine = this.starting.match(/.{9}/g);
+    let result = []
       for (let i = 0; i < 9; i++) {
-        this.startBoard[i] = into_nine[i].split("").map(Number); //biar pasti jadi number
+        result[i] = into_nine[i].split("").map(Number); //biar pasti jadi number
       }
-    return this.startBoard;
+    this.bank = result;
+    return this.startBoard = result;
   }
 
   zempty(){
@@ -125,51 +129,64 @@ class Sudoku {
           got = true;
         }
       }
-      // if (this.startBoard[kiri][kanan] == 0){
-      //   let randomer = Math.floor(Math.random()*(9-1)+1)
-      //   this.startBoard[kiri][kanan] = randomer
-      // }
       console.log(this.startBoard);
-      if (got == false){ //mencegah stuck loop
+      if (!got){ //mencegah stuck loop
         this.randomNine() // butuh dirandom ulang
         i--
-        this.count++
       }
-      if ( this.count == this.empty.length){
-        this.count = 0
-        i++
-      }
+      // if ( this.count == this.empty.length){
+      //   this.count = 0
+      //   // i++
+      // }
     }
     return this.startBoard
   }
 
-  solveHuman(){
-    this.zempty()
-    for (let i = 0; i < this.empty.length; i++){
-      let kiri = this.empty[i][0];
-      let kanan = this.empty[i][1];
-      this.combineCek()
-    }
-  }
+  // solveHuman(){
+  //   this.zempty()
+  //   for (let i = 0; i < this.empty.length; i++){
+  //     let kiri = this.empty[i][0];
+  //     let kanan = this.empty[i][1];
+  //     this.counter = 0
+  //     for (let j = 1; j < 10; j++){
+  //       if (this.combineCek(kiri, kanan, j)){
+  //         this.counter++
+  //         // var temp = j
+  //       }
+  //     }
+  //     if (this.counter == 1){
+  //       this.startBoard[kiri][kanan] = temp
+  //       this.counter = 0
+  //     }
+  //     if (i == this.empty.length){
+  //       return "done"
+  //     }
+  //   }
+  //   console.log(this.bank);
+  //   return this.startBoard
+  // }
 
   // Returns a string representing the current state of the board
   board() {}
 }
 
-var game = new Sudoku('619030040270061008000047621486302079000014580031009060005720806320106057160400030')
+var game = new Sudoku('001900003900700160030005007050000009004302600200000070600100030042007006500006800')
 
 // Remember: this will just fill out what it can and not "guess"
 // game.solve()
 
 console.log(game.horizontalBoard());
+console.log(game.zempty());
+console.log(game.solvebacktrack());
+
 // game.zempty();
 // console.log(game.blokal(4, 0, 4));
 // game.turnBlock();
-console.log(game.solvebacktrack());
+// console.log(game.solvebacktrack());
 // console.log(game.randomNine());
 // console.log(game.combineCek(0, 1, 8));
 // console.log(game.combineCek(0, 0, 6));
-// console.log(game.blokal(3, 2, 5));
+// console.log(game.blokal(0, 7, 6));
 // console.log(game.horizontal(7, 5));
 // console.log(game.vertical(0,3));
 // console.log(blokIndexer(5,2));
