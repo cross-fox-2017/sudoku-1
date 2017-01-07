@@ -58,14 +58,14 @@ class Sudoku {
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
 
-                tempBox.push(this.box[k][l])
+                // tempBox.push(this.box[k][l])
               }
             }
             // console.log('box 1');
             // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
-          if (i < 6 && j < 9) {
+          if (i < 6 && j < 6) {
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
 
@@ -73,21 +73,21 @@ class Sudoku {
 
               }
             }
-            console.log('box 2');
-            // return tempBox
-          }
-///////////////////////////////////////////////////////////////////////////////
-          if (i < 3 && j < 6) {
-            for (var k = 0; k < 3; k++) {
-              for (var l = 0; l < 3; l++) {
-
-                tempBox.push(this.box[k][l+3])
-
-              }
-            }
-            console.log('box 3');
+            // console.log('box 2');
             return tempBox
           }
+///////////////////////////////////////////////////////////////////////////////
+          // if (i < 3 && j < 6) {
+          //   for (var k = 0; k < 3; k++) {
+          //     for (var l = 0; l < 3; l++) {
+          //
+          //       tempBox.push(this.box[k][l+3])
+          //
+          //     }
+          //   }
+          //   console.log('box 3');
+          //   return tempBox
+          // }
         }
       }
     }
