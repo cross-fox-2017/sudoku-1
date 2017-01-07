@@ -11,6 +11,7 @@ class Sudoku {
     this.block = [];
     this.empty = [];
     this.kunci = [1,2,3,4,5,6,7,8,9]
+    this.count = 0
   }
 
   horizontalBoard() {
@@ -33,19 +34,19 @@ class Sudoku {
     return this.empty
   }
 
-  turnBlock(){
-    for (let i = 0; i < 9; i++){
-      let kiri = [0, 0, 0, 3, 3, 3, 6, 6, 6];
-      let kanan = [0, 3, 6, 0, 3, 6, 0, 3, 6];
-      this.block[i] = []
-      for(let j = kiri[i]; j < kiri[i] + 3; j++){
-        for (let k = kanan[i]; k < kanan[i] + 3; k++){
-          this.block[i].push(this.startBoard[j][k])
-        }
-      }
-    }
-    return this.block
-  }
+  // turnBlock(){
+  //   for (let i = 0; i < 9; i++){
+  //     let kiri = [0, 0, 0, 3, 3, 3, 6, 6, 6];
+  //     let kanan = [0, 3, 6, 0, 3, 6, 0, 3, 6];
+  //     this.block[i] = []
+  //     for(let j = kiri[i]; j < kiri[i] + 3; j++){
+  //       for (let k = kanan[i]; k < kanan[i] + 3; k++){
+  //         this.block[i].push(this.startBoard[j][k])
+  //       }
+  //     }
+  //   }
+  //   return this.block
+  // }
 
   randomNine (){
     var count = this.kunci.length
@@ -77,14 +78,31 @@ class Sudoku {
   }
 
   blokal(col, row, target){
-    var area = blokIndexer(col, row);
-    for (let i = 0; i < 9; i++){
-      if(this.block[area][i] == target){
-        return false
+    let kiri = 0
+    let kanan = 0
+    while (col > kiri +3) {
+      kiri += 3;
+    }
+    while (row > kanan +3) {
+      kanan += 3
+    }
+    for(let j = kiri; j < kiri + 3; j++){
+      for (let k = kanan; k < kanan + 3; k++){
+        if (this.startBoard[j][k] == target){
+          return false
+        }
       }
     }
     return true
   }
+  //   var area = blokIndexer(col, row);
+  //   for (let i = 0; i < 9; i++){
+  //     if(this.block[area][i] == target){
+  //       return false
+  //     }
+  //   }
+  //   return true
+  // }
 
   combineCek(col, row, target){
     if (this.horizontal(col, target) && this.vertical(row, target) && this.blokal(col, row, target)){
@@ -99,7 +117,7 @@ class Sudoku {
       let kiri = this.empty[i][0];
       let kanan = this.empty[i][1];
       let got = false;
-      for (let j = 1; j < 10; j++){
+      for (let j = 0; j < 9; j++){
         if (this.combineCek(kiri, kanan, this.kunci[j])){
           this.startBoard[kiri][kanan] = this.kunci[j];
           this.turnBlock();
@@ -110,6 +128,9 @@ class Sudoku {
       //   let randomer = Math.floor(Math.random()*(9-1)+1)
       //   this.startBoard[kiri][kanan] = randomer
       // }
+      this.count++
+      console.log(this.count);
+      console.log(this.startBoard);
       if (got == false){ //mencegah stuck loop
         this.randomNine() // butuh dirandom ulang
         i--;
@@ -128,10 +149,11 @@ var game = new Sudoku('619030040270061008000047621486302079000014580031009060005
 // game.solve()
 
 console.log(game.horizontalBoard());
-// game.zempty();
+game.zempty();
+console.log(game.blokal(4, 0, 4));
 // game.turnBlock();
 // console.log(game.solve());
-console.log(game.randomNine());
+// console.log(game.randomNine());
 // console.log(game.combineCek(0, 1, 8));
 // console.log(game.combineCek(0, 0, 6));
 // console.log(game.blokal(3, 2, 5));
