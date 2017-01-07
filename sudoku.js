@@ -40,10 +40,10 @@ class Sudoku {
     }
     else {
       if (cekNumCount > 1) {
-        return `Angka ${cekNum} sudah ada dalam row, maka SALAH`
+        return `Angka ${cekNum} sudah muncul ${cekNumCount} kali dalam row ${row}, maka SALAH`
       }
       else{
-        return `Angka ${cekNum} belum ada dalam row maka BENAR`
+        return `Angka ${cekNum} hanya muncul ${cekNumCount} kali dalam row ${row}, maka BENAR`
       }
     }
 
@@ -65,71 +65,122 @@ class Sudoku {
     }
     else {
       if (cekNumCount > 1) {
-        return `Angka ${cekNum} sudah ada dalam column, maka SALAH`
+        return `Angka ${cekNum} sudah muncul ${cekNumCount} kali dalam column ${col}, maka SALAH`
       }
       else{
-        return `Angka ${cekNum} belum ada dalam column, maka BENAR`
+        return `Angka ${cekNum} hanya muncul ${cekNumCount} kali dalam column ${col}, maka BENAR`
       }
     }
   }
 
-  cekBox(row, col, cekNum){
-    let cekNumCount = 0;
+    cekBox(row, col, cekNum){
+      let startSplit = 0;
+      let boxBoard = []
+      this.makeBoard();
+      this.board[row][col] = cekNum.toString()
 
-    if (row < 3) {
-      row = 0;
+      // push tiap 3 angka --> akan ada 27 array (81 / 3)
+      for (var i = 0; i < this.board.length; i++) {
+        let count = 0
+        for (var j = 0; j < 3; j++) {
+          let subBoard =[]
+          for (var k = 0; k < 3; k++) {
+            subBoard.push(this.board[i][count])
+            count++
+          }
+          boxBoard.push(subBoard)
+        }
+      }
 
-      // box 1 - 3.....
-      for (var a = 0; a < 3; a++) {
-        // box 1
-        if (col < 3) {
-          this.board[row][col] = cekNum
-          col = 0;
-          for (var b = col; b < 3+col; b++) {
-            if (cekNum === this.board[a][b]) {
-              cekNumCount++
-            }
+      // bikin box jadi berbentuk horizontal (rows)....
+      // dari 3 angka tadi diconcat....
+      let newBox = []
+
+        for (var b = 0; b < 3; b++) {
+          let box = boxBoard[b].concat(boxBoard[b+3])
+            box = box.concat(boxBoard[b+6])
+            newBox.push(box)
+        }
+        for (var d = 9; d < 12; d++) {
+          let box = boxBoard[d].concat(boxBoard[d+3])
+            box = box.concat(boxBoard[d+6])
+            newBox.push(box)
+        }
+
+        for (var d = 18; d < 21; d++) {
+          let box = boxBoard[d].concat(boxBoard[d+3])
+            box = box.concat(boxBoard[d+6])
+            newBox.push(box)
+        }
+
+      // cek koordinat ada di box keberapa? .....
+        let posisiBox = 0;
+        // box1...
+        if (row <= 2 && col <= 2) {
+          posisiBox = 0
+        }
+        // box 2..
+        if (row <= 2 && col >= 3 && col <= 5 ) {
+          posisiBox = 1
+        }
+        // box 3..
+        if (row <= 2 && col >= 6 ) {
+          posisiBox = 2
+        }
+        // box 4..
+        if (row >= 3 && row <= 5 && col <= 2) {
+          posisiBox = 3
+        }
+        // box 5..
+        if (row >= 3 && row <= 5 && col >= 3 && col <= 5 ) {
+          posisiBox = 4
+        }
+        // box 6..
+        if (row >= 3 && row <= 5 && col >= 6) {
+          posisiBox = 5
+        }
+        // box 7..
+        if (row >= 6 && col <= 2) {
+          posisiBox = 6
+        }
+        // box 8..
+        if (row >= 6 && col >= 3 && col <= 5  ) {
+          posisiBox = 7
+        }
+        // box 9..
+        if (row >= 6 && col >= 6) {
+          posisiBox = 8
+        }
+
+
+        // cek apakah num yang diinput sudah ada di box
+        let theBox = newBox[posisiBox]
+        let cekNumCount = 0;
+
+        for (let r = 0; r < 9; r++) {
+          if (cekNum == theBox[r]) {
+            cekNumCount++
           }
         }
-        // box 2
-        if (col >= 3 && col < 6) {
-          col = 3
-          for (var c = col; c < 3+col; c++) {
-            if (cekNum === this.board[a][c]) {
-              cekNumCount++
-            }
-          }
-        }
 
-        // box 3
-        if (col >= 6) {
-          col = 6
-          for (var d = col; d < 3+col; d++) {
-            if (cekNum === this.board[a][d]) {
-              cekNumCount++
-            }
+        if (cekNum == 0) {
+          return 'Angka yang dimasukkan 0, maka dianggap BENAR'
+        }
+        else {
+          if (cekNumCount > 1) {
+            return `Angka ${cekNum} sudah muncul ${cekNumCount} kali dalam box ${posisiBox + 1}, maka SALAH`
+          }
+          else{
+            return `Angka ${cekNum} hanya muncul ${cekNumCount} kali dalam box ${posisiBox + 1}, maka BENAR`
           }
         }
+      }
+      solve() {
 
       }
     }
-    if (cekNum == 0) {
-      return 'Angka yang dimasukkan 0, maka dianggap BENAR'
-    }
-    else {
-      if (cekNumCount > 1) {
-        return `Angka ${cekNum} sudah ada dalam box, maka SALAH`
-      }
-      else{
-        return `Angka ${cekNum} belum ada dalam box, maka BENAR`
-      }
-    }
 
 
-  }
-
-  solve() {}
-}
 
 // The file has newlines at the end of each line,
 // so we call split to remove it (\n)
@@ -137,14 +188,15 @@ class Sudoku {
 // var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
 //   .toString()
 //   .split("\n")[1]
-//
+
 var game = new Sudoku('619030040270061008000047621486302079000014580031009060005720806320126057160400030')
 
 // Remember: this will just fill out what it can and not "guess"
 
-// game.solve()
-
 console.log(game.makeBoard())
+
 console.log(game.cekRow(1,1,3));
-console.log(game.cekCol(2,1,1));
-//console.log(game.cekBox(2,5,1));
+console.log(game.cekCol(2,1,8));
+console.log(game.cekBox(7,2,5));
+
+// game.solve()
