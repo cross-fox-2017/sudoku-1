@@ -10,8 +10,9 @@ class Sudoku {
     this.startBoard = [];
     this.block = [];
     this.empty = [];
-    this.kunci = [1,2,3,4,5,6,7,8,9]
-    this.count = 0
+    this.kunci = [1,2,3,4,5,6,7,8,9];
+    this.count = 0;
+    this.backer = 1 //backtracker
   }
 
   horizontalBoard() {
@@ -112,15 +113,15 @@ class Sudoku {
     }
   }
 
-  solve(){
+  solvebacktrack(){
     for (let i = 0; i < this.empty.length; i++){
       let kiri = this.empty[i][0];
       let kanan = this.empty[i][1];
       let got = false;
+      this.randomNine()
       for (let j = 0; j < 9; j++){
         if (this.combineCek(kiri, kanan, this.kunci[j])){
           this.startBoard[kiri][kanan] = this.kunci[j];
-          this.turnBlock();
           got = true;
         }
       }
@@ -128,15 +129,27 @@ class Sudoku {
       //   let randomer = Math.floor(Math.random()*(9-1)+1)
       //   this.startBoard[kiri][kanan] = randomer
       // }
-      this.count++
-      console.log(this.count);
       console.log(this.startBoard);
       if (got == false){ //mencegah stuck loop
         this.randomNine() // butuh dirandom ulang
-        i--;
+        i--
+        this.count++
+      }
+      if ( this.count == this.empty.length){
+        this.count = 0
+        i++
       }
     }
     return this.startBoard
+  }
+
+  solveHuman(){
+    this.zempty()
+    for (let i = 0; i < this.empty.length; i++){
+      let kiri = this.empty[i][0];
+      let kanan = this.empty[i][1];
+      this.combineCek()
+    }
   }
 
   // Returns a string representing the current state of the board
@@ -149,10 +162,10 @@ var game = new Sudoku('619030040270061008000047621486302079000014580031009060005
 // game.solve()
 
 console.log(game.horizontalBoard());
-game.zempty();
-console.log(game.blokal(4, 0, 4));
+// game.zempty();
+// console.log(game.blokal(4, 0, 4));
 // game.turnBlock();
-// console.log(game.solve());
+console.log(game.solvebacktrack());
 // console.log(game.randomNine());
 // console.log(game.combineCek(0, 1, 8));
 // console.log(game.combineCek(0, 0, 6));
