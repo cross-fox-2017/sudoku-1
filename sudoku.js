@@ -121,12 +121,23 @@ class Sudoku {
             //untuk mencari box ke lima
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
-                tempBox.push(this.box[k+3][l+3])
+                // tempBox.push(this.box[k+3][l+3])
               }
             }
-            console.log('box 5');
-            return tempBox
+            // console.log('box 5');
+            // return tempBox
           }
+///////////////////////////////////////////////////////////////////////////////
+          if (i < 9 && j < 9) {
+            for (var k = 0; k < 3; k++) {
+              for (var l = 0; l < 3; l++) {
+                tempBox.push(this.box[k+3][l+6])
+              }
+            }
+          }
+          console.log('box 6');
+          return tempBox
+///////////////////////////////////////////////////////////////////////////////
         }
       }
     }
