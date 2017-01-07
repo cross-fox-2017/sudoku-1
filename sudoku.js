@@ -129,15 +129,26 @@ class Sudoku {
           }
 ///////////////////////////////////////////////////////////////////////////////
           if (i < 9 && j < 9) {
+            //untuk mencari box ke enam
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
-                tempBox.push(this.box[k+3][l+6])
+                // tempBox.push(this.box[k+3][l+6])
               }
             }
+            // console.log('box 6');
+            // return tempBox
           }
-          console.log('box 6');
-          return tempBox
 ///////////////////////////////////////////////////////////////////////////////
+          if (i < 9 && j < 9) {
+            //untuk mencari box ke tujuh
+            for (var k = 0; k < 3; k++) {
+              for (var l = 0; l < 3; l++) {
+                tempBox.push(this.box[k+6][l])
+              }
+            }
+            console.log('box 7');
+            return tempBox
+          }
         }
       }
     }
