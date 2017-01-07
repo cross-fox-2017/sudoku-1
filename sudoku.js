@@ -117,11 +117,11 @@ class Sudoku {
             // return tempBox
           }
 ///////////////////////////////////////////////////////////////////////////////
-          if (i < 3 && j < 3) {
+          if (i < 6 && j < 6) {
             //untuk mencari box ke lima
             for (var k = 0; k < 3; k++) {
               for (var l = 0; l < 3; l++) {
-                tempBox.push(this.box[k+6][l])
+                tempBox.push(this.box[k+3][l+3])
               }
             }
             console.log('box 5');
