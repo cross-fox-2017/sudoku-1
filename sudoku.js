@@ -141,3 +141,7 @@ class Sudoku {
     }
 
 }
+
+var game = new Sudoku(board_string)
+console.log(game.board())
+console.log(game.solve())
