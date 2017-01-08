@@ -118,26 +118,31 @@ class Sudoku {
   }
 
   solvebacktrack(){
-    for (let i = 0; i < this.empty.length; i++){
+    for (let i = 0; i < this.empty.length;){
       let kiri = this.empty[i][0];
       let kanan = this.empty[i][1];
       let got = false;
+      let ini = this.startBoard[kiri][kanan] + 1
       this.randomNine()
-      for (let j = 0; j < 9; j++){
-        if (this.combineCek(kiri, kanan, this.kunci[j])){
-          this.startBoard[kiri][kanan] = this.kunci[j];
+      while (!got && ini <= 9){
+        if (this.combineCek(kiri, kanan, this.kunci[ini])){
+          this.startBoard[kiri][kanan] = this.kunci[ini];
           got = true;
+          i++;
+        } else {
+          ini++;
         }
       }
-      console.log(this.startBoard);
+      // console.log(this.startBoard);
       if (!got){ //mencegah stuck loop
         this.randomNine() // butuh dirandom ulang
-        i--
+        console.log(i);
+        this.startBoard[kiri][kanan] = 0;
+        if (i < 0){
+          return this.startBoard
+        }
+        i--;
       }
-      // if ( this.count == this.empty.length){
-      //   this.count = 0
-      //   // i++
-      // }
     }
     return this.startBoard
   }
@@ -170,13 +175,13 @@ class Sudoku {
   board() {}
 }
 
-var game = new Sudoku('001900003900700160030005007050000009004302600200000070600100030042007006500006800')
+var game = new Sudoku('619030040270061008000047621486302079000014580031009060005720806320106057160400030')
 
 // Remember: this will just fill out what it can and not "guess"
 // game.solve()
 
 console.log(game.horizontalBoard());
-console.log(game.zempty());
+game.zempty();
 console.log(game.solvebacktrack());
 
 // game.zempty();
