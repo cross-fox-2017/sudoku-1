@@ -24,6 +24,20 @@ class Sudoku {
     return boardArr;
   }
 
+  getZeroIndex(){
+    let arrIndex = [];
+    for(let i = 0; i < 9; i++){
+      let arr = [];
+      arrIndex.push(arr)
+      for(let j = 0; j < 9; j++){
+        if(this.board[i][j] === 0){
+          arrIndex[i].push(j)
+        }
+      }
+    }
+    return arrIndex;
+  }
+
   solve() {
     let arrIndex = [];
     let angka = 0;
@@ -34,26 +48,17 @@ class Sudoku {
         if(this.board[i][j] == 0) {
           angka = 0;
           let status = true;
-          let x = 0;
 
           while(status){
-            let random = this.randomNumber();
-            if(this.checkAll(i,j,random)){
-              angka = random;
-              arrIndex[i].push(j);
-              status = false;
-              console.log(arrIndex);
+            for (let k = 1; k < 10; k++) {
+              if(this.checkAll(i,j,k)){
+                angka = k;
+                arrIndex[i].push(j);
+                status = false;
+                console.log(arrIndex);
+                break;
+              }
             }
-
-
-            // else if(x > 50){
-            //   for(let k = 0; k < arrIndex[i].length; k++){
-            //     random = this.randomNumber();
-            //     if(this.checkAll(i,k,random)){
-            //       this.board[i][k] = random;
-            //     }
-            //   }
-            // }
           }
           this.board[i][j] = angka;
           console.log(this.board);
@@ -61,7 +66,7 @@ class Sudoku {
         }
       }
     }
-    return this.board[0];
+    return this.board;
   }
 
   randomNumber(){
@@ -196,9 +201,7 @@ class Sudoku {
 // The file has newlines at the end of each line,
 // so we call split to remove it (\n)
 var fs = require('fs')
-var board_string = fs.readFileSync('set-01_sample.unsolved.txt')
-  .toString()
-  .split("\n")[0]
+var board_string = '619030040270061008000047621486302079000014580031009060005720806320106057160400030'
 
 var game = new Sudoku(board_string)
 
@@ -221,6 +224,7 @@ console.log(game);
 // console.log(game.checkAll(1,7,2));
 
 console.log(game.solve());
+
 // console.log(game.getZeroIndex());
 
 // console.log(game.board());

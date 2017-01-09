@@ -24,6 +24,37 @@ class Sudoku {
     return boardArr;
   }
 
+  checkPossibilities() {
+    let possibilities = []
+    let totalZero = 0;
+    let str = ''
+
+    for(let i = 0; i < 9; i++) {
+      let arr = [];
+      possibilities.push(arr)
+      for(let j = 0; j < 9; j++){
+        if(this.board[i][j] == 0) {
+          totalZero += 1 
+          let status = true;
+          while(status){
+            for(let k = 1; k < 10; k++){
+              if(this.checkAll(i,j,k)){
+                str += k.toString();
+              } 
+            }
+            status = false;
+            possibilities[i].push(str)
+          }
+          str = '';
+        } else {
+          str += '';
+          possibilities[i].push(str)
+        }
+      }
+    }
+    return possibilities;
+  }
+
   getZeroIndex(){
     let arrIndex = [];
     for(let i = 0; i < 9; i++){
@@ -33,40 +64,33 @@ class Sudoku {
         if(this.board[i][j] === 0){
           arrIndex[i].push(j)
         }
+        else {
+          arrIndex[i].push('');
+        }
       }
     }
     return arrIndex;
   }
 
   solve() {
-    let arrIndex = [];
     let angka = 0;
     for(let i = 0; i < 9; i++){
-      let arrIndex2 = []
-      arrIndex.push(arrIndex2)
       for(let j = 0; j < 9; j++){
-        if(this.board[i][j] == 0) {
+        if(this.board[i][j] === 0){
           angka = 0;
           let status = true;
           let x = 0;
-
           while(status){
-            let random = this.randomNumber();
-            if(this.checkAll(i,j,random)){
-              angka = random;
-              arrIndex[i].push(j);
-              status = false;
-              console.log(arrIndex);
+            let randomPossibilities = randomPossible(this.checkPossibilities()[i][j]);
+            if(this.checkAll(i,j,randomPossibilities)){
+              angka = randomPossibilities;
+              status = false
+            } else if(x > 1) {
+              this.board = this.makeBoard(board_string);
+              this.solve()
+              x = 0
             }
-
-            // else if(x > 50){
-            //   for(let k = 0; k < arrIndex[i].length; k++){
-            //     random = this.randomNumber();
-            //     if(this.checkAll(i,k,random)){
-            //       this.board[i][k] = random;
-            //     }
-            //   }
-            // }
+            x++
           }
           this.board[i][j] = angka;
           console.log(this.board);
@@ -74,17 +98,7 @@ class Sudoku {
         }
       }
     }
-    return this.board[0];
-    // return this.getZeroIndex()[4].length
-  }
-
-  randomNumber(){
-    return Math.floor(Math.random() * 9) + 1;
-  }
-
-  // Returns a string representing the current state of the board
-  board() {
-
+    return this.board;
   }
 
   checkRow(x,y,value){
@@ -104,85 +118,42 @@ class Sudoku {
   }
 
   checkBox(x,y,value){
-
-    // check box 1
     let batasAwalX  = 0;
     let batasAkhirX = 0;
     let batasAwalY = 0;
     let batasAkhirY = 0;
 
-    // cek box 1
-    if(x >= 0 && x <= 2 && y >= 0 && y <= 2){
-      batasAwalX  = 0;
-      batasAkhirX = 2;
-      batasAwalY = 0;
-      batasAkhirY = 2;
+    // cek box 1 - 3
+    for(let i = 0, j = 2; i < 7; i += 3, j += 3){
+      if(x >= 0 && x <= 2 && y >= i && y <= j){
+        batasAwalX  = 0;
+        batasAkhirX = 2;
+        batasAwalY = i;
+        batasAkhirY = j;
+      }
     }
 
-    // cek box 2
-    if(x >= 0 && x <= 2 && y >= 3 && y <= 5){
-      batasAwalX  = 0;
-      batasAkhirX = 2;
-      batasAwalY = 3;
-      batasAkhirY = 5;
-    }
+    // cek box 4 - 6
+    for(let i = 0, j = 2; i < 7; i += 3, j += 3){
+      if(x >= 3 && x <= 5 && y >= i && y <= j){
+        batasAwalX  = 3;
+        batasAkhirX = 5;
+        batasAwalY = i;
+        batasAkhirY = j;
+      }
+    } 
 
-    // cek box 3
-    if(x >= 0 && x <= 2 && y >= 6 && y <= 8){
-      batasAwalX  = 0;
-      batasAkhirX = 2;
-      batasAwalY = 6;
-      batasAkhirY = 8;
+    // cek box 7 - 9
+    for(let i = 0, j = 2; i < 7; i += 3, j += 3){
+      if(x >= 6 && x <= 8 && y >= i && y <= j){
+        batasAwalX  = 6;
+        batasAkhirX = 8;
+        batasAwalY = i;
+        batasAkhirY = j;
+      }
     }
-
-    // cek box 4
-    if(x >= 3 && x <= 5 && y >= 0 && y <= 2){
-      batasAwalX  = 3;
-      batasAkhirX = 5;
-      batasAwalY = 0;
-      batasAkhirY = 2;
-    }
-
-    // cek box 5
-    if(x >= 3 && x <= 5 && y >= 3 && y <= 5){
-      batasAwalX  = 3;
-      batasAkhirX = 5;
-      batasAwalY = 3;
-      batasAkhirY = 5;
-    }
-
-    // cek box 6
-    if(x >= 3 && x <= 5 && y >= 6 && y <= 8){
-      batasAwalX  = 3;
-      batasAkhirX = 5;
-      batasAwalY = 6;
-      batasAkhirY = 8;
-    }
-
-    // cek box 7
-    if(x >= 6 && x <= 8 && y >= 0 && y <= 2){
-      batasAwalX  = 6;
-      batasAkhirX = 8;
-      batasAwalY = 0;
-      batasAkhirY = 2;
-    }
-
-    // cek box 7
-    if(x >= 6 && x <= 8 && y >= 3 && y <= 5){
-      batasAwalX  = 6;
-      batasAkhirX = 8;
-      batasAwalY = 0;
-      batasAkhirY = 2;
-    }
-
-    // cek box 8
-    if(x >= 6 && x <= 8 && y >= 6 && y <= 8){
-      batasAwalX  = 6;
-      batasAkhirX = 8;
-      batasAwalY = 6;
-      batasAkhirY = 8;
-    }
-
+    
+    // Mulai Cek Box
     for(let i = batasAwalX; i <= batasAkhirX; i++){
       for(let j = batasAwalY; j <= batasAkhirY; j++){
         if(this.board[i][j] === value){
@@ -193,14 +164,8 @@ class Sudoku {
     return true;
   }
 
-  checkAll(x,y,value){
-    let row = x;
-    let col = y;
-    let val = value
-
-    if(this.checkRow(row,col,val) &&
-    this.checkColumn(row,col,val) &&
-    this.checkBox(row,col,val)){
+  checkAll(x,y,v){
+    if(this.checkRow(x,y,v) && this.checkColumn(x,y,v) && this.checkBox(x,y,v)){
       return true
     }
     return false
@@ -210,38 +175,23 @@ class Sudoku {
 // The file has newlines at the end of each line,
 // so we call split to remove it (\n)
 var fs = require('fs')
-var board_string = '619030040270061008000047621486302079000014580031009060005720806320106057160400030'
+var board_string = '619030040270061008000047621486302079000014580031009060005720806320126057160400030'
 
 var game = new Sudoku(board_string)
 
 console.log(game);
-// console.log(game.checkRow(0,3,6));
-// console.log(game.checkColumn(4,5,4));
-
-// console.log(game.checkAll(0,0,0));
-// console.log(game.checkAll(0,0,1));
-// console.log(game.checkAll(0,0,2));
-// console.log(game.checkAll(0,0,3));
-// console.log(game.checkAll(0,0,4));
-// console.log(game.checkAll(0,0,5));
-// console.log(game.checkAll(0,0,6));
-// console.log(game.checkAll(0,0,7));
-// console.log(game.checkAll(0,0,8));
-// console.log(game.checkAll(0,0,9));
-// console.log('\n');
-// console.log(game.checkAll(0,4,3));
-// console.log(game.checkAll(1,7,2));
 
 console.log(game.solve());
 
+// console.log(game.checkPossibilities());
 // console.log(game.getZeroIndex());
 
-// console.log(game.board());
-// Remember: this will just fill out what it can and not "guess"
-// game.solve()
 
-// console.log(game.board())
-
+// Helper Function
+function randomPossible(str){
+    str = str.charAt(Math.floor(Math.random() * str.length));
+    return parseInt(str);
+}
 
 function shuffle(array) {
     let counter = array.length;
@@ -260,3 +210,4 @@ function shuffle(array) {
     }
     return array;
 }
+
