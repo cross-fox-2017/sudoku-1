@@ -9,13 +9,13 @@ class Sudoku {
 // check(0,0,5)
   var xx=0;
   var yy=0;
-  for(let i=0; i<9; i++){
-    var data = i+1;
+
+    var data = Math.floor(Math.random()*9)+1;
     while (this.check(xx,yy,data)) {
       this.sudoku_grid[xx][yy]=data;
-      yy++
+      yy+=1;
     }
-  }
+
   return this.sudoku_grid;
   }
   check(x,y,z) {
