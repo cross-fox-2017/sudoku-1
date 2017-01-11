@@ -39,20 +39,6 @@ class Sudoku {
     return this.empty
   }
 
-  // turnBlock(){
-  //   for (let i = 0; i < 9; i++){
-  //     let kiri = [0, 0, 0, 3, 3, 3, 6, 6, 6];
-  //     let kanan = [0, 3, 6, 0, 3, 6, 0, 3, 6];
-  //     this.block[i] = []
-  //     for(let j = kiri[i]; j < kiri[i] + 3; j++){
-  //       for (let k = kanan[i]; k < kanan[i] + 3; k++){
-  //         this.block[i].push(this.startBoard[j][k])
-  //       }
-  //     }
-  //   }
-  //   return this.block
-  // }
-
   randomNine (){
     var count = this.kunci.length
     while(count){
@@ -119,12 +105,13 @@ class Sudoku {
 
   solvebacktrack(){
     for (let i = 0; i < this.empty.length;){
+      // console.log(i);
       let kiri = this.empty[i][0];
       let kanan = this.empty[i][1];
       let got = false;
-      let ini = this.startBoard[kiri][kanan] + 1
+      let ini = this.startBoard[kiri][kanan]
       this.randomNine()
-      while (!got && ini <= 9){
+      while (!got && ini < 9){
         if (this.combineCek(kiri, kanan, this.kunci[ini])){
           this.startBoard[kiri][kanan] = this.kunci[ini];
           got = true;
@@ -133,67 +120,85 @@ class Sudoku {
           ini++;
         }
       }
-      // console.log(this.startBoard);
+      this.count++
+      // console.log(this.kunci);
       if (!got){ //mencegah stuck loop
-        this.randomNine() // butuh dirandom ulang
-        console.log(i);
         this.startBoard[kiri][kanan] = 0;
-        if (i < 0){
-          return this.startBoard
+        got = false
+        if (i < 1){} //stopper
+        else {
+            i--;
         }
-        i--;
       }
+      console.log(this.count);
+      console.log(this.startBoard);
     }
     return this.startBoard
   }
 
-  // solveHuman(){
-  //   this.zempty()
-  //   for (let i = 0; i < this.empty.length; i++){
-  //     let kiri = this.empty[i][0];
-  //     let kanan = this.empty[i][1];
-  //     this.counter = 0
-  //     for (let j = 1; j < 10; j++){
-  //       if (this.combineCek(kiri, kanan, j)){
-  //         this.counter++
-  //         // var temp = j
-  //       }
-  //     }
-  //     if (this.counter == 1){
-  //       this.startBoard[kiri][kanan] = temp
-  //       this.counter = 0
-  //     }
-  //     if (i == this.empty.length){
-  //       return "done"
-  //     }
-  //   }
-  //   console.log(this.bank);
-  //   return this.startBoard
-  // }
+  solveHuman(){
+    this.zempty()
+    for (let i = 0; i < this.empty.length; i++){
+      let kiri = this.empty[i][0];
+      let kanan = this.empty[i][1];
+      this.counter = 0
+      for (let j = 1; j < 10; j++){
+        if (this.combineCek(kiri, kanan, j)){
+          this.counter++
+          // var temp = j
+        }
+      }
+      if (this.counter == 1){
+        this.startBoard[kiri][kanan] = temp
+        this.counter = 0
+      }
+      if (i == this.empty.length){
+        return "done"
+      }
+    }
+    console.log(this.bank);
+    return this.startBoard
+  }
 
   // Returns a string representing the current state of the board
-  board() {}
+  boardTest() {
+    for (let i = 0; i < this.empty.length; i++){
+      let kiri = this.empty[i][0];
+      let kanan = this.empty[i][1];
+      this.randomNine()
+      for (let j = 0; j < 9; j++){
+        if (this.combineCek(kiri, kanan, this.kunci[j])){
+          this.startBoard[kiri][kanan] = this.kunci[j]
+        }
+      }
+      console.log(i);
+      console.log(this.startBoard);
+    }
+  }
+
 }
 
-var game = new Sudoku('619030040270061008000047621486302079000014580031009060005720806320106057160400030')
+var game = new Sudoku('105802000090076405200400819019007306762083090000061050007600030430020501600308900')
 
 // Remember: this will just fill out what it can and not "guess"
 // game.solve()
 
 console.log(game.horizontalBoard());
 game.zempty();
-console.log(game.solvebacktrack());
+// console.log(game.empty[32])
+// console.log(game.solvebacktrack());
+// console.log(game.boardTest());
 
 // game.zempty();
-// console.log(game.blokal(4, 0, 4));
+// console.log(game.blokal(8, 8, 8));
 // game.turnBlock();
 // console.log(game.solvebacktrack());
 // console.log(game.randomNine());
-// console.log(game.combineCek(0, 1, 8));
+// console.log(game.combineCek(0, 0, 7));
 // console.log(game.combineCek(0, 0, 6));
-// console.log(game.blokal(0, 7, 6));
-// console.log(game.horizontal(7, 5));
-// console.log(game.vertical(0,3));
+// console.log(game.blokal(1, 0, 4));
+// console.log(game.horizontal(0, 7));
+// console.log(game.vertical(0,7));
 // console.log(blokIndexer(5,2));
 
 function blokIndexer(col, row){
